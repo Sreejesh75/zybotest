@@ -42,10 +42,15 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            FlutterLogo(size: 80),
-            SizedBox(height: 24),
-            Text('Loading...', style: TextStyle(fontSize: 18)),
+          children: [
+            Image.asset(
+              'assets/images/app_logo.png',
+              width: 120,
+              height: 120,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(height: 24),
+            const Text('Zybo', style: TextStyle(fontSize: 18)),
           ],
         ),
       ),

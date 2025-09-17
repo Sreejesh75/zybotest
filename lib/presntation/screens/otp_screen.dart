@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zybo_test/presntation/screens/registration_screen.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 import 'home_screen.dart';
 
@@ -20,6 +21,8 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
+  final TextEditingController otpController = TextEditingController();
+
   final List<TextEditingController> otpControllers = List.generate(
     4,
     (_) => TextEditingController(),
@@ -36,21 +39,47 @@ class _OtpScreenState extends State<OtpScreen> {
           children: [
             const Text(
               "OTP VERIFICATION",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Text("Enter the OTP sent to +91-${widget.phone}"),
-            const SizedBox(height: 10),
-            Text(
-              "OTP is ${widget.otp}",
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
+              style: TextStyle(
+                fontSize: 23,
+                fontWeight: FontWeight.w700,
+                color: Color(0xff000000),
               ),
             ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Text(
+                  "Enter the OTP sent to ",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+                ),
+                Text(
+                  '+91-${widget.phone} ',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Text(
+                  "OTP is ",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+                ),
+                Text(
+                  '${widget.otp}',
+                  style: TextStyle(
+                    fontSize: 17,
+                    color: Color(0xff5E5BE2),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 20),
-
-            // OTP Fields
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
@@ -67,7 +96,62 @@ class _OtpScreenState extends State<OtpScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 80),
+
+            // PinCodeTextField(
+            //   appContext: context,
+            //   length: 4,
+            //   controller: otpController,
+            //   keyboardType: TextInputType.number,
+            //   animationType: AnimationType.fade,
+            //   pinTheme: PinTheme(
+            //     shape: PinCodeFieldShape.box,
+            //     borderRadius: BorderRadius.circular(8),
+            //     fieldHeight: 60,
+            //     fieldWidth: 60,
+            //     activeFillColor: Colors.white,
+            //     selectedFillColor: Colors.grey[200],
+            //     inactiveFillColor: Colors.grey[200],
+            //     inactiveColor: Colors.grey,
+            //     activeColor: Colors.deepPurple,
+            //     selectedColor: Colors.deepPurple,
+            //   ),
+            //   animationDuration: const Duration(milliseconds: 300),
+            //   enableActiveFill: true,
+            //   onCompleted: (value) {
+            //     print("OTP Entered: $value");
+            //   },
+            // ),
+            const SizedBox(height: 15),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "00:120 Sec",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+                  ),
+                  const SizedBox(height: 12),
+                  const Text.rich(
+                    TextSpan(
+                      text: "Don’t receive code? ",
+                      style: const TextStyle(color: Colors.black, fontSize: 16),
+                      children: [
+                        TextSpan(
+                          text: "Re-send",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Colors.green,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 40),
 
             // Submit Button
             SizedBox(
@@ -99,12 +183,16 @@ class _OtpScreenState extends State<OtpScreen> {
                   backgroundColor: const Color(0xFF6C63FF),
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
                 child: const Text(
                   "Submit",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xffFFFFFF),
+                  ),
                 ),
               ),
             ),

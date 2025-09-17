@@ -39,8 +39,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       final headers = {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'User-Agent': 'PostmanRuntime/7.32.2',
       };
       print('Profile API headers: $headers');
       final response = await http.get(
