@@ -4,6 +4,7 @@ import 'package:zybo_test/logic/auth/auth_bloc.dart';
 import 'package:zybo_test/logic/banner/banner_bloc.dart';
 import 'package:zybo_test/logic/product/product_bloc.dart';
 import 'package:zybo_test/presntation/screens/login_screen.dart';
+import 'package:zybo_test/presntation/screens/splash_screen.dart';
 import 'package:zybo_test/repository/apiservices/auth_provider.dart';
 import 'package:zybo_test/repository/apiservices/banner_repository.dart';
 import 'package:zybo_test/repository/apiservices/product_repository.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Product Listing App',
         theme: ThemeData(primarySwatch: Colors.deepPurple),
-        home: LoginScreen(), // 👈 start from login (or splash)
+        home: const SplashScreen(), // 👈 start from splash screen
       ),
     );
   }

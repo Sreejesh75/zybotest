@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'otp_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -62,9 +63,19 @@ class LoginScreen extends StatelessWidget {
 
                     if (response.statusCode == 200) {
                       final data = json.decode(response.body);
-
+                      print(data);
+                      // Save token and user id if present
+                      if (data["token"] != null && data["token"]["access"] != null) {
+                        // Save access token and user id to SharedPreferences
+                        // ignore: use_build_context_synchronously
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.setString('token', data["token"]["access"]);
+                        if (data["token"]["user_id"] != null) {
+                          await prefs.setString('user_id', data["token"]["user_id"].toString());
+                        }
+                      }
                       // print OTP in console
-                      print("📩 OTP is: ${data['otp']}");
+                      print("\ud83d\udce9 OTP is: {data['otp']}");
 
                       Navigator.push(
                         context,
@@ -86,19 +97,7 @@ class LoginScreen extends StatelessWidget {
                       context,
                     ).showSnackBar(SnackBar(content: Text("Error: $e")));
                   }
-
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (_) => OtpScreen(
-                  //       phone: phoneController.text,
-                  //       otp: data['otp'].toString(), // mock OTP, later replace with API
-                  //       isUserExist: data['isUserExist'],
-                  //     ),
-                  //   ),
-                  // );
                 },
-
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF6C63FF),
                   padding: const EdgeInsets.symmetric(vertical: 15),
