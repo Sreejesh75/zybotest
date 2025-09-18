@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final bannerRepo = BannerRepository();
     final productRepo = ProductRepository();
-    final authRepo = AuthProvider(); // 👈 Add your AuthRepository
+    final authRepo = AuthProvider();
 
     return MultiBlocProvider(
       providers: [

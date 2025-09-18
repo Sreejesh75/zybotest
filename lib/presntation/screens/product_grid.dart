@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart';
 
 class ProductGrid extends StatelessWidget {
   final List products;
@@ -34,6 +38,59 @@ class _ProductCard extends StatefulWidget {
 
 class _ProductCardState extends State<_ProductCard> {
   bool wishlisted = false;
+  bool loading = false;
+
+  Future<String?> _getBearerToken() async {
+    // Retrieve token using the same key as other API calls
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
+
+  Future<void> _toggleWishlist(int productId) async {
+    setState(() {
+      loading = true;
+    });
+  const String apiUrl = 'https://skilltestflutter.zybotechlab.com/api/add-remove-wishlist/';
+    try {
+      final token = await _getBearerToken();
+      if (token == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('User not authenticated.')),
+        );
+        setState(() {
+          loading = false;
+        });
+        return;
+      }
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({'product_id': productId}),
+      );
+      debugPrint('Wishlist API response: \\nStatus: \\${response.statusCode}\\nBody: \\${response.body}');
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        setState(() {
+          wishlisted = !wishlisted;
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to update wishlist.')),
+        );
+      }
+    } catch (e) {
+      debugPrint('Wishlist API error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    } finally {
+      setState(() {
+        loading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,18 +169,22 @@ class _ProductCardState extends State<_ProductCard> {
             top: 10,
             right: 10,
             child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  wishlisted = !wishlisted;
-                });
-              },
-              child: Image.asset(
-                wishlisted
-                    ? 'assets/images/wishlisted.png'
-                    : 'assets/images/not_wishlisted.png',
-                width: 28,
-                height: 28,
-              ),
+              onTap: loading
+                  ? null
+                  : () => _toggleWishlist(product.id),
+              child: loading
+                  ? SizedBox(
+                      width: 28,
+                      height: 28,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Image.asset(
+                      wishlisted
+                          ? 'assets/images/wishlisted.png'
+                          : 'assets/images/not_wishlisted.png',
+                      width: 28,
+                      height: 28,
+                    ),
             ),
           ),
         ],

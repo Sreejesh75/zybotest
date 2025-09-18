@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:zybo_test/data/models/product_model.dart';
 
 class ProductRepository {
-  final String baseUrl = 'https://skilltestflutter.zybotechlab.com/api';
+  final String baseUrl = 'http://skilltestflutter.zybotechlab.com/api';
 
   Future<List<Product>> fetchProducts() async {
     final response = await http.get(Uri.parse('$baseUrl/products/'));
