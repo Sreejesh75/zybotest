@@ -30,7 +30,7 @@ REST APIs (secured with JWT tokens)
 
 🚀 Getting Started
 1️⃣ Clone the repository
-git clone https://github.com/your-username/your-repo.git
+git clone https://github.com/Sreejesh75/your-repo.git
 cd your-repo
 
 2️⃣ Install dependencies
