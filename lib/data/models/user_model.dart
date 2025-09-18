@@ -1,15 +1,15 @@
-class UserModel {
+class Profile {
+  final String name;
+  final String email;
   final String phone;
-  final String? name;
-  final String? token;
 
-  UserModel({required this.phone, this.name, this.token});
+  Profile({required this.name, required this.email, required this.phone});
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
-      phone: json['phone'],
-      name: json['name'],
-      token: json['token'],
+  factory Profile.fromJson(Map<String, dynamic> json) {
+    return Profile(
+      name: json['name'] ?? '',
+      email: json['email'] ?? '',
+      phone: json['phone'] ?? '',
     );
   }
 }

@@ -26,15 +26,13 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => BannerBloc(bannerRepo)),
         BlocProvider(create: (_) => ProductBloc(productRepo)),
-        BlocProvider(
-          create: (_) => AuthBloc(authRepo),
-        ), // 👈 Provide AuthBloc globally
+        BlocProvider(create: (_) => AuthBloc(authRepo)),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Product Listing App',
         theme: ThemeData(primarySwatch: Colors.deepPurple),
-        home: const SplashScreen(), // 👈 start from splash screen
+        home: const SplashScreen(),
       ),
     );
   }

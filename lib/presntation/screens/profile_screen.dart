@@ -24,8 +24,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> fetchProfile() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
+    print("JWT Token before calling API: $token");
     print('ProfileScreen mounted: $mounted');
-    print('Profile API URL: http://skilltestflutter.zybotechlab.com/api/user-data/');
+    print(
+      'Profile API URL: https://skilltestflutter.zybotechlab.com/api/user-data/',
+    );
     print('Token from SharedPreferences: $token');
     print('Token length: [32m${token?.length}[0m');
     if (token == null) {
@@ -42,7 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       };
       print('Profile API headers: $headers');
       final response = await http.get(
-        Uri.parse('http://skilltestflutter.zybotechlab.com/api/user-data/'),
+        Uri.parse('https://skilltestflutter.zybotechlab.com/api/user-data/'),
         headers: headers,
       );
       print('Profile API response status: ${response.statusCode}');
@@ -57,9 +60,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         print('Profile fetch success: name=$name, phone=$phoneNumber');
       } else {
         setState(() {
-          error = 'Failed to fetch profile: \u001b[31m${response.statusCode}\n${response.body}\u001b[0m';
+          error =
+              'Failed to fetch profile: \u001b[31m${response.statusCode}\n${response.body}\u001b[0m';
         });
-        print('Failed to fetch profile: ${response.statusCode}\n${response.body}');
+        print(
+          'Failed to fetch profile: ${response.statusCode}\n${response.body}',
+        );
       }
     } catch (e) {
       setState(() {

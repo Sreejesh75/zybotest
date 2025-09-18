@@ -23,7 +23,8 @@ class _WishlistScreenState extends State<WishlistScreen> {
   Future<void> fetchWishlist() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
-  print('Token from SharedPreferences: $token');
+    print("JWT Token before calling API: $token");
+    print('Token from SharedPreferences: $token');
     if (token == null) {
       setState(() {
         _wishlistResponse = 'No token found. Please login.';
@@ -32,16 +33,16 @@ class _WishlistScreenState extends State<WishlistScreen> {
     }
     try {
       final response = await http.get(
-        Uri.parse('http://skilltestflutter.zybotechlab.com/api/wishlist/'),
-        headers: {
-          'Authorization': 'Bearer $token',
-
-        },
+        Uri.parse('https://skilltestflutter.zybotechlab.com/api/wishlist/'),
+        headers: {'Authorization': 'Bearer $token'},
       );
       setState(() {
-        _wishlistResponse = 'Status: ${response.statusCode}\nBody: ${response.body}';
+        _wishlistResponse =
+            'Status: ${response.statusCode}\nBody: ${response.body}';
       });
-      print('Wishlist response: status=${response.statusCode}, body=${response.body}');
+      print(
+        'Wishlist response: status=${response.statusCode}, body=${response.body}',
+      );
     } catch (e) {
       setState(() {
         _wishlistResponse = 'Error fetching wishlist: $e';
